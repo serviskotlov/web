@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ServisKotlov PRO – evidencia servisov kotlov, protokoly a pripomienky v telefóne</title>
+<meta name="description" content="Aplikácia pre servisných technikov kotlov, tepelných čerpadiel a elektrických kotlov: termíny prehliadok, servisné protokoly s podpisom a PDF, cenové ponuky a pripomienky zákazníkom. Funguje aj bez signálu.">
+<meta name="theme-color" content="#0d1b2a">
+<link rel="icon" href="img/icon.png">
+<link rel="canonical" href="https://www.serviskotlovpro.sk/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.serviskotlovpro.sk/">
+<meta property="og:title" content="ServisKotlov PRO – termíny, protokoly a pripomienky v jednom telefóne">
+<meta property="og:description" content="Aplikácia pre servisných technikov kotlov a tepelných čerpadiel. Zadarmo do 10 zákazníkov.">
+<meta property="og:image" content="https://www.serviskotlovpro.sk/img/prehlad.jpg">
+<meta property="og:locale" content="sk_SK">
+<style>
+  :root{
+    --bg:#0d1b2a; --bg2:#112438; --card:#132a40; --line:#23405c;
+    --text:#e6f2ff; --muted:#93acc4; --accent:#00b4d8; --accent2:#ff8c42; --ok:#06d6a0;
+    --r:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  /* hlavička */
+  header{position:sticky;top:0;z-index:5;background:rgba(13,27,42,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  header .wrap{display:flex;align-items:center;gap:16px;height:60px}
+  .logo{font-weight:800;font-size:1.15rem;letter-spacing:-.01em;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:8px}
+  .logo img{width:28px;height:28px;border-radius:7px}
+  .logo b{color:var(--accent)} .logo sup{color:var(--accent2);font-size:.6rem;font-weight:800;margin-left:2px}
+  nav{margin-left:auto;display:flex;gap:18px;align-items:center}
+  nav a{color:var(--muted);text-decoration:none;font-size:.92rem}
+  nav a:hover{color:var(--text)}
+  .btn{display:inline-block;background:var(--accent);color:#04121f;font-weight:700;text-decoration:none;padding:12px 20px;border-radius:12px;border:0;font-size:1rem;line-height:1.2;text-align:center}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  .btn.sm{padding:8px 14px;font-size:.88rem;border-radius:10px}
+  /* úvod */
+  .hero{padding:64px 0 40px;background:radial-gradient(1200px 500px at 80% -10%,rgba(0,180,216,.18),transparent 60%)}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .eyebrow{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+  h1{font-size:clamp(2rem,4.4vw,3.1rem);line-height:1.1;margin:0 0 18px;letter-spacing:-.02em}
+  h1 em{font-style:normal;color:var(--accent)}
+  .lead{font-size:1.15rem;color:var(--muted);margin:0 0 26px;max-width:36em}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .note{color:var(--muted);font-size:.88rem;margin-top:14px}
+  .phone{justify-self:center;width:min(300px,80vw);border-radius:34px;padding:10px;background:#071321;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.45)}
+  .phone img{display:block;width:100%;height:auto;border-radius:26px}
+  /* sekcie */
+  section{padding:64px 0}
+  section.alt{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  h2{font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.2;margin:0 0 10px;letter-spacing:-.01em}
+  .sub{color:var(--muted);margin:0 0 34px;max-width:42em}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+  .card .ic{font-size:1.6rem;line-height:1;margin-bottom:12px}
+  .card h3{margin:0 0 6px;font-size:1.08rem}
+  .card p{margin:0;color:var(--muted);font-size:.96rem}
+  .steps{counter-reset:s;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .step{position:relative;padding:22px 22px 22px 70px;background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+  .step::before{counter-increment:s;content:counter(s);position:absolute;left:20px;top:20px;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#04121f;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .step h3{margin:0 0 4px;font-size:1.05rem} .step p{margin:0;color:var(--muted);font-size:.95rem}
+  .shots{display:flex;gap:16px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x mandatory}
+  .shots figure{margin:0;flex:0 0 220px;scroll-snap-align:start}
+  .shots img{width:220px;height:auto;border-radius:18px;border:1px solid var(--line);display:block}
+  .shots figcaption{color:var(--muted);font-size:.85rem;text-align:center;margin-top:8px}
+  /* cenník */
+  .prices{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:stretch}
+  .price{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:flex;flex-direction:column}
+  .price.best{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+  .price .tag{align-self:flex-start;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:#04121f;padding:2px 8px;border-radius:6px;margin-bottom:10px}
+  .price h3{margin:0;font-size:1.15rem}
+  .price .lim{color:var(--muted);font-size:.92rem;margin:2px 0 16px}
+  .price .amt{font-size:2rem;font-weight:800;line-height:1}
+  .price .amt small{font-size:.9rem;font-weight:600;color:var(--muted)}
+  .price .vat{color:var(--muted);font-size:.85rem;margin:6px 0 18px}
+  .price ul{list-style:none;padding:0;margin:0 0 20px;font-size:.92rem;color:var(--muted)}
+  .price li{padding:4px 0 4px 22px;position:relative}
+  .price li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800}
+  .price .btn{margin-top:auto}
+  .terms{color:var(--muted);font-size:.9rem;margin-top:22px;max-width:52em}
+  /* otázky */
+  details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:0 0 10px}
+  summary{cursor:pointer;font-weight:600;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";float:right;color:var(--accent);font-weight:800}
+  details[open] summary::after{content:"–"}
+  details p{color:var(--muted);margin:10px 0 2px}
+  /* záver */
+  .final{text-align:center;padding:72px 0;background:radial-gradient(800px 300px at 50% 120%,rgba(0,180,216,.2),transparent 70%)}
+  .final .cta{justify-content:center}
+  footer{border-top:1px solid var(--line);padding:30px 0 40px;color:var(--muted);font-size:.88rem}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:12px 30px;justify-content:space-between}
+  footer a{color:var(--muted)} footer a:hover{color:var(--text)}
+  footer .links{display:flex;flex-wrap:wrap;gap:8px 18px}
+  @media (max-width:900px){
+    .hero .wrap{grid-template-columns:1fr}
+    .phone{order:-1;width:min(240px,64vw)}
+    .grid3,.steps{grid-template-columns:1fr 1fr}
+    .prices{grid-template-columns:1fr 1fr}
+    nav a.hide{display:none}
+  }
+  @media (max-width:600px){
+    .grid3,.steps,.prices{grid-template-columns:1fr}
+    section{padding:48px 0}
+    .hero{padding:36px 0 30px}
+    nav a:not(.btn){display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#"><img src="img/icon.png" alt="" width="28" height="28">Servis<b>Kotlov</b><sup>PRO</sup></a>
+    <nav>
+      <a href="#funkcie" class="hide">Funkcie</a>
+      <a href="#cennik">Cenník</a>
+      <a href="https://serviskotlov.github.io/navod.html" class="hide">Návod</a>
+      <a class="btn sm" href="https://serviskotlov.github.io/">Otvoriť aplikáciu</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Pre servisných technikov kotlov a tepelných čerpadiel</span>
+      <h1>Termíny, protokoly a pripomienky <em>v jednom telefóne</em></h1>
+      <p class="lead">ServisKotlov postráži termíny prehliadok, vyplní servisný protokol, ktorý zákazník podpíše na displeji, a pripomenie zákazníkom, že sa blíži servis. Funguje aj v pivnici bez signálu.</p>
+      <div class="cta">
+        <a class="btn" href="https://serviskotlov.github.io/">Vyskúšať zadarmo</a>
+        <a class="btn ghost" href="#cennik">Pozrieť cenník</a>
+      </div>
+      <div class="note">Bez registrácie a bez inštalácie z obchodu · zadarmo do 10 zákazníkov</div>
+    </div>
+    <div class="phone"><img src="img/prehlad.jpg" alt="Prehľad aplikácie: zákazníci po termíne, blížiace sa prehliadky a dohodnuté návštevy" width="585" height="1170"></div>
+  </div>
+</div>
+
+<section id="funkcie">
+  <div class="wrap">
+    <h2>Čo za teba aplikácia urobí</h2>
+    <p class="sub">Navrhnuté technikom pre technikov – podľa toho, ako servis v teréne naozaj prebieha.</p>
+    <div class="grid3">
+      <div class="card"><div class="ic">📅</div><h3>Stráži termíny</h3><p>Na prvej obrazovke vidíš, kto je po termíne a kto príde na rad. Aj ďalšie termíny – odborné prehliadky, skúšky, kontroly úniku F-plynov.</p></div>
+      <div class="card"><div class="ic">📋</div><h3>Protokol v telefóne</h3><p>Šablóny pre plynové kotly, tepelné čerpadlá aj elektrické kotly. Údaje z minulého roka sa predvyplnia, úkony odklikneš jedným ťuknutím.</p></div>
+      <div class="card"><div class="ic">✍️</div><h3>Podpis a PDF</h3><p>Zákazník podpíše prstom na displeji. Protokol s logom, pečiatkou a fotkami odošleš ako PDF e-mailom ešte na mieste.</p></div>
+      <div class="card"><div class="ic">📨</div><h3>Pripomienky zákazníkom</h3><p>Pripravené SMS a e-maily „blíži sa prehliadka“. Odosielaš jedného za druhým, appka si pamätá, komu už napísala.</p></div>
+      <div class="card"><div class="ic">💶</div><h3>Cenové ponuky</h3><p>Ponuku poskladáš z položiek protokolu a pošleš ako PDF. Ceny bez DPH aj s DPH, export pre fakturačný program.</p></div>
+      <div class="card"><div class="ic">☁️</div><h3>Záloha a viac zariadení</h3><p>Údaje sa zálohujú na tvoj vlastný Disk Google a synchronizujú medzi telefónom a počítačom. K údajom nemá prístup nikto iný.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>Ako to vyzerá</h2>
+    <p class="sub">Snímky priamo z aplikácie. Funguje v telefóne s Androidom aj iPhone a na počítači.</p>
+    <div class="shots">
+      <figure><img src="img/ukony.jpg" alt="Vykonané úkony v servisnom protokole" width="585" height="1170" loading="lazy"><figcaption>Úkony jedným ťuknutím</figcaption></figure>
+      <figure><img src="img/protokoly.jpg" alt="Zoznam protokolov zákazníka" width="585" height="1170" loading="lazy"><figcaption>Protokoly – e-mail, tlač, PDF</figcaption></figure>
+      <figure><img src="img/pripomienky.jpg" alt="Pripomienky zákazníkom" width="585" height="1170" loading="lazy"><figcaption>Pripomienky jeden po druhom</figcaption></figure>
+      <figure><img src="img/ponuka.jpg" alt="Cenové ponuky" width="585" height="1170" loading="lazy"><figcaption>Cenové ponuky</figcaption></figure>
+      <figure><img src="img/plan.jpg" alt="Plán prehliadok po mesiacoch" width="585" height="1170" loading="lazy"><figcaption>Plán po mesiacoch</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Začneš za päť minút</h2>
+    <p class="sub">Nič sa neinštaluje z obchodu a netreba sa registrovať.</p>
+    <div class="steps">
+      <div class="step"><h3>Otvor aplikáciu</h3><p>V prehliadači otvor aplikáciu a pridaj si ju na plochu. Má vlastnú ikonu a otvorí sa aj bez internetu.</p></div>
+      <div class="step"><h3>Vyplň firmu</h3><p>Krátky sprievodca sa opýta na meno, firmu a telefón – zobrazia sa v protokoloch a pripomienkach.</p></div>
+      <div class="step"><h3>Pridaj zákazníkov</h3><p>Zákazníka, kotol a termín ďalšej prehliadky. Výrobné číslo odčítaš fotoaparátom zo štítka.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cennik" class="alt">
+  <div class="wrap">
+    <h2>Cenník</h2>
+    <p class="sub">Ročná licencia podľa počtu zákazníkov. Všetky stupne PRO majú všetky funkcie: protokoly s podpisom a PDF, cenové ponuky, pripomienky SMS a e-mailom, Google Drive a synchronizáciu, mapu, prehľad tržieb a export. Platia na 2 zariadenia (napr. telefón a počítač).</p>
+    <div class="prices">
+      <div class="price">
+        <h3>Zadarmo</h3><div class="lim">do 10 zákazníkov</div>
+        <div class="amt">0 €</div><div class="vat">navždy</div>
+        <ul><li>Zákazníci, zariadenia, termíny</li><li>História servisov</li><li>Čítačka štítkov</li><li>Záloha do súboru</li></ul>
+        <a class="btn ghost" href="https://serviskotlov.github.io/">Začať zadarmo</a>
+      </div>
+      <div class="price">
+        <h3>PRO Štart</h3><div class="lim">do 100 zákazníkov</div>
+        <div class="amt">49 € <small>/ rok</small></div><div class="vat">bez DPH · 60,27 € s DPH</div>
+        <ul><li>Všetky funkcie PRO</li><li>Pre začínajúci servis</li><li>2 zariadenia</li></ul>
+        <a class="btn ghost" href="mailto:adrian.kramer@seznam.cz?subject=Objedn%C3%A1vka%20licencie%20ServisKotlov%20PRO%20%C5%A0tart">Objednať</a>
+      </div>
+      <div class="price best">
+        <span class="tag">Najčastejšia voľba</span>
+        <h3>PRO</h3><div class="lim">do 400 zákazníkov</div>
+        <div class="amt">89 € <small>/ rok</small></div><div class="vat">bez DPH · 109,47 € s DPH</div>
+        <ul><li>Všetky funkcie PRO</li><li>Pre bežný servis jedného technika</li><li>2 zariadenia</li></ul>
+        <a class="btn" href="mailto:adrian.kramer@seznam.cz?subject=Objedn%C3%A1vka%20licencie%20ServisKotlov%20PRO">Objednať</a>
+      </div>
+      <div class="price">
+        <h3>PRO Neobmedzené</h3><div class="lim">neobmedzený počet zákazníkov</div>
+        <div class="amt">129 € <small>/ rok</small></div><div class="vat">bez DPH · 158,67 € s DPH</div>
+        <ul><li>Všetky funkcie PRO</li><li>Bez limitu zákazníkov</li><li>2 zariadenia</li></ul>
+        <a class="btn ghost" href="mailto:adrian.kramer@seznam.cz?subject=Objedn%C3%A1vka%20licencie%20ServisKotlov%20PRO%20Neobmedzen%C3%A9">Objednať</a>
+      </div>
+    </div>
+    <p class="terms">Platba faktúrou, licenčný kľúč príde e-mailom po úhrade. Do 14 dní od doručenia kľúča môžeš odstúpiť bez udania dôvodu a peniaze ti vrátime. Objednať môžeš aj priamo v aplikácii (Nastavenia → Licencia) – fakturačné údaje sa doplnia samé. <a href="https://serviskotlov.github.io/obchodne-podmienky.html">Obchodné podmienky</a></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:780px">
+    <h2>Časté otázky</h2>
+    <p class="sub">Ak tu odpoveď nenájdeš, pozri <a href="https://serviskotlov.github.io/navod.html">návod</a> alebo napíš.</p>
+    <details><summary>Funguje to bez signálu?</summary><p>Áno. Po prvom otvorení s internetom funguje aplikácia aj bez signálu – zákazníci, protokoly, podpis aj PDF. Synchronizáciu dokončí, keď budeš opäť online.</p></details>
+    <details><summary>Kde sú uložené údaje mojich zákazníkov?</summary><p>V tvojom telefóne a pri zapnutej zálohe na tvojom vlastnom Disku Google. Prevádzkovateľ aplikácie k nim nemá prístup. Podrobnosti sú v <a href="https://serviskotlov.github.io/zasady.html">zásadách ochrany osobných údajov</a>.</p></details>
+    <details><summary>Môžem ju používať na telefóne aj na počítači?</summary><p>Áno, licencia platí na 2 zariadenia. So zapnutou synchronizáciou cez Google Drive sa zmeny prenášajú automaticky.</p></details>
+    <details><summary>Aké zariadenia aplikácia podporuje?</summary><p>Telefóny a tablety s Androidom, iPhone a iPad, aj počítače s Windows, macOS alebo Linuxom – stačí moderný prehliadač (Chrome, Edge, Safari, Firefox).</p></details>
+    <details><summary>Čo sa stane, keď mi licencia vyprší?</summary><p>Aplikácia sa vráti do bezplatnej verzie. Údaje ostanú, môžeš ich prezerať a exportovať. Po predĺžení pokračuješ tam, kde si skončil. Aplikácia ťa upozorní 30 dní vopred.</p></details>
+    <details><summary>Je tlačený protokol v súlade s predpismi?</summary><p>Šablóny vychádzajú z bežnej praxe pri servise plynových kotlov, tepelných čerpadiel a elektrických kotlov a dajú sa upraviť. Za obsah protokolu a dodržanie predpisov a pokynov výrobcu zodpovedá technik.</p></details>
+  </div>
+</section>
+
+<div class="final">
+  <div class="wrap">
+    <h2>Vyskúšaj to na svojich zákazníkoch</h2>
+    <p class="sub" style="margin:0 auto 26px">Prvých 10 zákazníkov zadarmo, bez registrácie.</p>
+    <div class="cta"><a class="btn" href="https://serviskotlov.github.io/">Otvoriť aplikáciu</a></div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>ServisKotlov PRO · EGMONT s. r. o., Hviezdoslavova 7, 078 01 Sečovce · IČO 46727710</div>
+    <div class="links">
+      <a href="https://serviskotlov.github.io/navod.html">Návod</a>
+      <a href="https://serviskotlov.github.io/obchodne-podmienky.html">Obchodné podmienky</a>
+      <a href="https://serviskotlov.github.io/zasady.html">Ochrana osobných údajov</a>
+      <a href="https://serviskotlov.github.io/kontakt.html">Kontakt</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
